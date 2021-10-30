@@ -1,0 +1,42 @@
+<!--public folder is a static folder...stores all images, js, css, etc.-->
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><!--.ejs file also includes HTML code!!!!-->
+
+<head><!--Logic is written in app.js and html is here for the TEMPLATE-->
+  <meta charset="utf-8">
+  <title>To Do list</title>
+  <link rel="stylesheet" href="css/styles.css">  <!--NO need to put 'public/css/styles.css'  -->
+</head>
+
+<body>
+
+  <div class="box" id="heading">
+    <h1><%= kindOfDay %></h1><!--tag to write value of that array element-->
+  </div>
+
+
+  <div class="box">
+
+    <% new_list.forEach(function(item){ %><!--forEach loop on item array-->  <!-- <% %> tag is always used when we use JS in html (in .ejs file)--><!--each element in item has an _id and a task-->
+    <form action="/delete" method="post"><!--THIS ROUTE IS RESPONSIBLE FOR DELETING CHECKED ITEMS--><!--we ALWAYS need a form to post something....here after clicking the checkbox, the item gets deleted-->
+      <div class="item">
+        <input type="checkbox" name="checkbox_name" value="<%= item._id %>" onChange="this.form.submit()"><!--onChange="this.form.submit()" is used to SUBMIT the form when checkbox is checked......in the form below, we have a button of type submit which will submit the form.....but here we have no button...so this is the way--><!--<%= item._id %> is the id value of that item which we will access to delete-->
+        <p><%= item.task %></p> <!--tag to write value of that array element-->
+      </div>
+      <input type="hidden" name="hiddenName" value="<%= kindOfDay %>"></input><!--hidden input type is HIDDEN....does nothing...but we can access its VALUE....we DONT have a submit button(with value kindOfDay) in this part of the form...and the checkbox already has a value of _id....so we are using hidden input to assign a value to this part of the form, with value kindOfDay -->
+    </form>
+
+    <% }); %>
+
+
+      <form class=" item" action="/" method="post"><!--posting to the root route-->
+        <input type="text" name="new_item" placeholder="Add another task." autocomplete="off"><!--this name NEW_ITEM is used in app.js file to add elements--><!--autocomplete off means AUTOSUGGESTIONS are OFF-->
+        <button type="submit" name="buttonName" value="<%= kindOfDay %>">+</button>  <!--so basically button has name= button AND value which it gives is kindOfDay(ie. the HEADING OF LIST)-->
+    </form>
+
+  </div>
+
+
+</body>
+
+</html>
